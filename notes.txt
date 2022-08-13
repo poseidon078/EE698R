@@ -1,0 +1,68 @@
+L1:
+
+1. Generative model: 
+2. Discriminative model: from p(Y/X), given X find Y.
+3. GMM: Gaussion mixture model: samples of X from distribution N(X,(mu,sigma))
+4. SVM: Classifies data by using a separating hyperplane (converts to higher dim using a kernel which keeps dot products easily computable) (not linearly separable data). The max margin hyperplane is determined by x_i that lie nearest to it, which are called support vectors.
+5. Linear regression: best fit (LS estimate) using a line.
+6. Hyperplane: A space of n-1 dimensions in a n dimensional space. Dimensions means rank. Since one equation is satisfied, the rank of the set of points reduces by 1. Single normal as this normal is the one dimension which gets removed.
+7. Classification vs Regression: discrete vs continuous Y.
+8. Negative likelihood same as negative log likelihood
+
+L2:
+
+1. NN can be fooled because NN only learns boundaries in the space so if you provide data that is totally out of blue  it will get identified as something because NN doesn't know what "not" to detect. Generative models clear this issue.
+2. KL divergence is used to estimate a distribution q(x) which is very close to given distribution p(x) (comparing two distributions). Used when p(x) is very complicated to sample from and samples of q(x) are easy to compute.
+3. Whatever a pdf is, the cdf of that random variable will be a uniform rv. Because pz(z)=|px(x)/(df(x)/dx)|x=f-1(z). Since f(x)=integral from -inf to x, pz(z)=1.
+4. Sampling from a probability distribution is a difficult task because sampling requires that all the values in a population are equally probable to be found in the sample. Thus, samples need to be unbiased. U(0,1) is simplest to sample because a random number generator does the work for you: it already has random samples from U(0,1). These are truly random. Basically the assumption is that there exists a pure, unbiased random number generator and the numbers generated are samples from U(0,1) (it is verified too approximately in experiment). Other distributions don't consider it as a pure sample of themselves if the random number generator generates a number as a sample for that distribution (they actually cannot consider it even if they want to because they will be widely different distributions if you try to verify). Only U(0,1) considers it as it is approximately equal in experiment as well. So all distributions map to U(0,1) using CDF.
+5. Multivariate sampling done by successive component sampling. You will be given P(x3&x2&x1) and P(x2&x1) and P(x1). Use chain rule. Note that chain rule extends like P(x3/(x2&x1)).P(x2/x1).P(x1). Proven by you yourself.
+6. If covariance matrix is diagonal then normal variables are independent.
+7. Proof of Conditional independence expression: A DAG is an n-ary tree with possibly multiple parents where siblings can also be parents. Thus we expand bayes rule in such a way that the rightmost terms are at the top of the tree. Thus, the rightmost elements will appear with least no. of given rvs in the probability terms which get cancelled as they are at top of tree (thus independent of anything lower in the tree). Every probability term will have only its previous siblings and the parents in the tree. That is why conditional dependence equation has only parents in the formula.
+
+L3:
+
+1. Latent variables are variables that can be derived from observables. Used for modeling.
+
+L4:
+
+1. The multivariate vector of independent gaussian rvs is spherically symmetric because its distribution is dependent on radial distance from origin.
+
+
+L5
+
+1. Normalizing flows paper by Deepmind group is very good for theory.
+2. Transformation matrix should be differentiable wrt *parameters* (not the variables themselves) (for training), Invertible, determinant easy to compute.
+3. Real non-volume preserving flow: Lower triangular jacobian when the transform has only stretching and shifting terms. Stretching is term attached to previous and shift is constant term.
+4. Nature of flow is auto-regressive as you use x1 to compute x2 and x2,x1 to compute x3 and so on-required for getting jacobian lower triangular.
+
+L6:
+
+1. Only calculations. Just refer to typed notes.
+
+L7, L8:
+
+1. If take log_s instead of s and then exponentiate then you ensure that stretching term is positive in RNVP
+2. Flipping in RNVP increases expressive power of the NF as now all variables can transform and not just 1 or two. Thus more functions can fit into this.
+3. @tf.function is the decorator in the code
+4. In NF whether px(x)*=a*f(x) or px(x)*=f(x), the loss function still works as in its expression a comes out as constant (as integral a*pu(u)*du=a=const)
+5. MLE=argmax(theta) {sum of log(q(x,theta))}: will work only when you have samples.
+6. Variational inference: Take family of distributions which are easy to sample from and take KL divergence. The element of the family closest to source geometrically maximizes KLD.
+7. Functional is a function of function.
+8. ISING model is x_i={-1,1} in a lattice.
+9. Multivariate Normal has 2+4-1 tunable params as covariance matrix is symm. Taking mean field approximation it further reduces to 2*2 as components are now independent.
+10. Geometrically mean field approx is an ellipse with axes parallel to coordinate axes with major and minor axes equal to the two s.d.(s). The actual distribution in general doesn't have that property though (is tilted).
+11. Approximate inference: q_k(z_k) needs to be determined. Rest math. Use course notes.
+
+L9:
+
+1. Difficult to sample distribution like ISING  can also be sampled using rejection as the complicated constant gets absorbed in K.
+2. P(accept)=1/K.
+3. p and q should be close enough in importance sampling because you should not get many samples there where p is very less.
+4. Importance sampling is used to calculate expected value of an expression but the pdf is complicated. MC approx is used.
+5. Approx inference is used to sample given p(x). Same with rejection sampling.
+
+L10:
+
+1. GAN is used when samples of p(x) given but not p(x) itself
+2. Jensen shannon divergence: symmetric unlike KL
+3. Mode collapse: Discriminator fails as z is restricted in a space and G maps them to x1.
